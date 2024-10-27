@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <nav class="bg-gray-800 p-4">
+    <div class="container mx-auto flex justify-between items-center ">
+      <a href="" class="text-white text-xl font-bold">Notes App</a>
+      <ul class="flex space-x-4">
+        <li><a class="text-white hover:text-gray-300">Home</a></li>
+        <li><a href="/new" class="text-white hover:text-gray-300">Create a Note</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="p-10 bg-gray-100 h-screen">
+    <h1 class="pb-5 text-xl font-bold">My Notes</h1>
+
+<div class="outer flex gap-10">
+      <% notes.forEach(title=>{%>
+        <div class="notes   pt-5 w-[300px] h-[150px] bg-white p-4 rounded-md shadow-md">
+
+          <h1 class="font-medium ">Title: <%= title %></h1>
+
+          <div class="btn pt-7 flex gap-5">
+              <a href="/show-details/<%= title %>" 
+             <button class="bg-blue-500 rounded-md border px-2 py-1 text-white font-medium"> View </button>
+            </a>
+              <a href="/edit/<%= title %>">
+                <button class="bg-yellow-300 rounded-md border px-2 py-1 text-white font-medium ">Edit</button>
+              </a>
+              <a href="">
+                <button class="bg-red-500 rounded-md border px-2 py-1 text-white font-medium ">Delete</button>
+              </a> 
+
+            </div>
+
+    </div>
+        <%}) %>
+</div>
+
+  </main>
+</body>
+
+</html>
