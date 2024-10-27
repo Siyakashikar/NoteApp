@@ -1,40 +1,35 @@
 const express = require('express')
-const app = express()  //calling express
-const fs = require('fs');
+const app = express()  
+    const fs = require('fs');
 
-// // view engine ko set krre hai hamne ejs view engine use kiya hai
 app.set('view engine', "ejs")
 
 
-// //Home page banare hai jo ki / route pe dhikhega
+
 app.get('/', (req, res) => {
-    fs.readdir("./notes", (err, files) => {      //notes folder me kitni files hai ye pata karne ke liye fs use kiya hai
-        //  console.log(files); //isse data milra hai array ke form me
-        res.render("index", {    //files =notes
-            notes: files         //notes naam se files ke ander jo bhi data aara hai vo bhej dere hai index page pe
+    fs.readdir("./notes", (err, files) => {      
+        //  console.log(files);        
+        res.render("index", {   
+        notes: files         
         });
     })
 })
 
-// //yha hamne ek /new route create kiya hai jo ki render hora hai new page pe
-app.get('/new', (req, res) => {  //new route pe hamko ek form dhikhega
+app.get('/new', (req, res) => {  
     res.render('new')
 })
 
-// // new page ke form ka data server tak phochana hai to ham create karege ek route ->/new-note
-app.get('/new-note', (req, res) => {  //submit hone pe data req.query me aayga
+app.get('/new-note', (req, res) => {  
     // console.log(req.query)
     // const title =req.query.title 
     // const description =req.query.description
 
-    //note create karne ke liye fs ka use krre hai
     fs.writeFile(`./notes/${req.query.title}`, req.query.description, (err) => {
-        res.redirect("/")            //query me do chij hoti hai title & contained
+        res.redirect("/")            
     })
 
 })
 
-//:ke bad vala part dynamic hoga
 app.get('/notes/:title', (req, res) => {
     const title = req.params.title
     fs.readFile(`./notes/${title}`, "utf-8", (err, data) => {
@@ -42,8 +37,8 @@ app.get('/notes/:title', (req, res) => {
     })
 })
 
-app.get('/show-details/:title', (req, res) => {  //title is dynamic so params read the dynamic value
-    const title = req.params.title    //params used to create a dynamic routes
+app.get('/show-details/:title', (req, res) => {  
+    const title = req.params.title    
     // res.render('details')
     // res.send(title)
     fs.readFile(`./notes/${title}`, "utf-8", (err, data) => {
@@ -58,9 +53,9 @@ app.get('/show-details/:title', (req, res) => {  //title is dynamic so params re
 app.get('/edit/:title', (req, res) => {
     const title = req.params.title
 
-    fs.readFile(`./notes/${title}`, "utf-8", (err, data) => { //readfile ka cpntent hota hai data me
+    fs.readFile(`./notes/${title}`, "utf-8", (err, data) => { 
         // console.log(data)
-        res.render('edit', {  //yha edit page ko render krre hai sath hi sath data or title bhrjre hai edit page pe
+        res.render('edit', {  
             title: title,
             description: data
 
@@ -74,7 +69,6 @@ app.get('/edit-note/:oldTitle', (req, res) => {
     const description = req.query.description
 
     fs.rename(`./notes/${oldTitle}`, `./notes/${title}`, (err) => {
-  //curent file ka adress and sec parameter rename krke kya hona
         fs.writeFile(`./notes/${title}`,description,(err)=>{
             console.log(err)
             res.redirect('/')
